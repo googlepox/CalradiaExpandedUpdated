@@ -51,10 +51,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CEKPartySpeedCalculatingModel.cs" />
+    <Compile Include="LiberartisPatch.cs" />
     <Compile Include="NavalPatch.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="TradeBoundBehavior.cs" />
-    <Compile Include="AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
