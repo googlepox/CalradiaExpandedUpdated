@@ -55,6 +55,7 @@
     <Compile Include="NavalPatch.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="TradeBoundBehavior.cs" />
+    <Compile Include="WeatherPatch.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
