@@ -12,7 +12,7 @@ namespace CalradiaExpanded
     {
         public static void Postfix(MobileParty fromParty, Settlement toSettlement, ref float __result)
         {
-            if (toSettlement.StringId == "town_TT1")
+            if (toSettlement != null && toSettlement.StringId == "town_TT1" && fromParty.CurrentNavigationFace.IsValid())
             {
                 Settlement zeonica = MBObjectManager.Instance.GetObject<Settlement>("town_EW2");
                 float zeonicaDistance = Campaign.Current.Models.MapDistanceModel.GetDistance(fromParty, zeonica);
@@ -29,7 +29,7 @@ namespace CalradiaExpanded
     {
         public static void Postfix(Settlement fromSettlement, Settlement toSettlement, ref float __result)
         {
-            if (fromSettlement.StringId == "town_TT1")
+            if (fromSettlement != null && fromSettlement.StringId == "town_TT1")
             {
                 Settlement zeonica = MBObjectManager.Instance.GetObject<Settlement>("town_EW2");
                 float zeonicaDistance = Campaign.Current.Models.MapDistanceModel.GetDistance(zeonica, toSettlement);
@@ -38,7 +38,7 @@ namespace CalradiaExpanded
                 float avgDistance = (sanalaDistance + zeonicaDistance) / 2f;
                 __result = avgDistance;
             }
-            else if (toSettlement.StringId == "town_TT1")
+            else if (toSettlement != null && toSettlement.StringId == "town_TT1")
             {
                 Settlement zeonica = MBObjectManager.Instance.GetObject<Settlement>("town_EW2");
                 float zeonicaDistance = Campaign.Current.Models.MapDistanceModel.GetDistance(fromSettlement, zeonica);
