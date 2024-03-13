@@ -10,17 +10,22 @@ namespace CalradiaExpanded
     [HarmonyPatch(typeof(DefaultMapDistanceModel), "GetDistance", new[] { typeof(MobileParty), typeof(Settlement) })]
     internal class PartyToLiberartisPatch
     {
-        public static void Postfix(MobileParty fromParty, Settlement toSettlement, ref float __result)
+        public static bool Prefix(MobileParty fromParty, Settlement toSettlement, ref float __result)
         {
-            if (toSettlement != null && toSettlement.StringId == "town_TT1" && fromParty.CurrentNavigationFace.IsValid())
+            if (toSettlement?.StringId == "town_TT1")
             {
-                Settlement zeonica = MBObjectManager.Instance.GetObject<Settlement>("town_EW2");
-                float zeonicaDistance = Campaign.Current.Models.MapDistanceModel.GetDistance(fromParty, zeonica);
-                Settlement sanala = MBObjectManager.Instance.GetObject<Settlement>("town_A6");
-                float sanalaDistance = Campaign.Current.Models.MapDistanceModel.GetDistance(fromParty, sanala);
-                float avgDistance = (sanalaDistance + zeonicaDistance) / 2f;
-                __result = avgDistance;
+                if (fromParty.CurrentNavigationFace.IsValid())
+                {
+                    Settlement zeonica = MBObjectManager.Instance.GetObject<Settlement>("town_EW2"), sanala = MBObjectManager.Instance.GetObject<Settlement>("town_A6");
+                    float zeonicaDistance = Campaign.Current.Models.MapDistanceModel.GetDistance(fromParty, zeonica), sanalaDistance = Campaign.Current.Models.MapDistanceModel.GetDistance(fromParty, sanala);
+
+                    __result = (sanalaDistance + zeonicaDistance) / 2f;
+                }
+
+                return false;
             }
+
+            return true;
         }
     }
 

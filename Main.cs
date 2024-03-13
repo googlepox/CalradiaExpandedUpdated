@@ -5,17 +5,15 @@
 // Assembly location: C:\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\CalradiaExpanded\bin\Win64_Shipping_Client\CalradiaExpanded.dll
 
 using HarmonyLib;
-using System;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.GameComponents;
-using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 
 namespace CalradiaExpanded
 {
-  public class Main : MBSubModuleBase
-  {
+    public class Main : MBSubModuleBase
+    {
         Harmony harmony;
         protected override void OnSubModuleLoad()
         {
@@ -26,10 +24,13 @@ namespace CalradiaExpanded
 
         protected override void OnGameStart(Game game, IGameStarter gameStarter)
         {
-          if (!(game.GameType is Campaign))
-            return;
-          CampaignGameStarter campaignGameStarter = (CampaignGameStarter) gameStarter;
-          campaignGameStarter.AddBehavior(new TradeBoundBehavior());
+            if (!(game.GameType is Campaign))
+            {
+                return;
+            }
+
+            CampaignGameStarter campaignGameStarter = (CampaignGameStarter)gameStarter;
+            campaignGameStarter.AddBehavior(new TradeBoundBehavior());
 
         }
 
@@ -37,7 +38,7 @@ namespace CalradiaExpanded
         {
             base.OnGameInitializationFinished(game);
             var speedModel = AccessTools.Method(typeof(DefaultPartySpeedCalculatingModel), "CalculateFinalSpeed");
-            harmony.Patch(speedModel, finalizer: new HarmonyMethod(AccessTools.Method(typeof(CEKPartySpeedCalculatingModel), "SpeedFinalizer")));
+            harmony.Patch(speedModel, finalizer: new HarmonyMethod(AccessTools.Method(typeof(CalculateFinalSpeedPatch), "SpeedFinalizer")));
         }
-        }
+    }
 }
